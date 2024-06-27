@@ -1,0 +1,10 @@
+ruff
+mypy
+ipython
+ipdb
+pre-commit
+advent-of-code-data
+pytest
+python-lsp-ruff==2.2.0
+pynvim==0.5.0
+python-lsp-server==1.10.0
