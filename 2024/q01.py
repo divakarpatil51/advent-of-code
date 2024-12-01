@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from collections import Counter
 import heapq
 
@@ -33,8 +33,6 @@ def part_2(data: str) -> int:
     return count
 
 
-with open(os.path.join(os.getcwd(), "2024/inputs/1.txt"), "r") as f:
-    data = f.read().strip()
-
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2024/inputs/1.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")

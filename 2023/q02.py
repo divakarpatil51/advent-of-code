@@ -1,6 +1,6 @@
 import dataclasses
 import re
-import os
+from pathlib import Path
 
 
 @dataclasses.dataclass
@@ -18,10 +18,11 @@ class Game:
 
 def parse_line(line: str) -> Game:
     _set = re.match(r"Game (\d+): (.*)", line, re.IGNORECASE)
+    assert _set
 
     idx = int(_set.group(1))
     draws = _set.group(2).split("; ")
-    parsed_draws = []
+    parsed_draws: list[Draw] = []
     for draw in draws:
         red_count, green_count, blue_count = 0, 0, 0
         green = re.search(r"(\d+) green", draw, re.IGNORECASE)
@@ -63,7 +64,6 @@ def part_2(data: str) -> int:
     return total_count
 
 
-with open(os.path.join(os.getcwd(), "2023/inputs/2.txt"), "r") as f:
-    data = f.read().strip()
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2023/inputs/2.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")

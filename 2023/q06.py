@@ -1,5 +1,5 @@
+from pathlib import Path
 import re
-import os
 
 
 def part_1(data: str):
@@ -30,12 +30,6 @@ def part_2(data: str):
     return num_of_ways
 
 
-data = """
-Time:      7  15   30
-Distance:  9  40  200
-"""
-
-with open(os.path.join(os.getcwd(), "2023/inputs/6.txt"), "r") as f:
-    data = f.read().strip()
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2023/inputs/6.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")

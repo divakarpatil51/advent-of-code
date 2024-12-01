@@ -1,44 +1,44 @@
-from collections import Counter
+from pathlib import Path
 import re
+from collections import Counter
 from functools import cmp_to_key
-import os
 
 
-def is_five_of_a_kind(_char_dict: dict):
+def is_five_of_a_kind(_char_dict: Counter[str]):
     # Five of a kind, where all five cards have the same label: AAAAA
     return len(_char_dict) == 1
 
 
-def is_four_of_a_kind(_char_dict: dict):
+def is_four_of_a_kind(_char_dict: Counter[str]):
     # Four of a kind, where four cards have the same label and one card has a different label: AA8AA
     return len(_char_dict) == 2 and sorted(_char_dict.values()) == [1, 4]
 
 
-def is_full_house(_char_dict: dict):
+def is_full_house(_char_dict: Counter[str]):
     # Full house, where three cards have the same label,
     # and the remaining two cards share a different label: 23332
     return len(_char_dict) == 2 and sorted(_char_dict.values()) == [2, 3]
 
 
-def is_three_of_a_kind(_char_dict: dict):
+def is_three_of_a_kind(_char_dict: Counter[str]):
     # Three of a kind, where three cards have the same label,
     # and the remaining two cards are each different from any other card in the hand: TTT98
     return len(_char_dict) == 3 and sorted(_char_dict.values()) == [1, 1, 3]
 
 
-def is_two_pair(_char_dict: dict):
+def is_two_pair(_char_dict: Counter[str]):
     # Two pair, where two cards share one label,
     # two other cards share a second label, and the remaining card has a third label: 23432
     return len(_char_dict) == 3 and sorted(_char_dict.values()) == [1, 2, 2]
 
 
-def is_one_pair(_char_dict: dict):
+def is_one_pair(_char_dict: Counter[str]):
     # One pair, where two cards share one label,
     # and the other three cards have a different label from the pair and each other: A23A4
     return len(_char_dict) == 4
 
 
-def is_high_card(_char_dict: dict):
+def is_high_card(_char_dict: Counter[str]):
     # High card, where all cards' labels are distinct: 23456
     return len(_char_dict) == 5
 
@@ -46,7 +46,7 @@ def is_high_card(_char_dict: dict):
 def part_1(data: str):
     strength = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
 
-    def comparator(key1, key2):
+    def comparator(key1: tuple[str, str, int], key2: tuple[str, str, int]):
         hand1, _, _type1 = key1
         hand2, _, _type2 = key2
         if _type1 > _type2:
@@ -63,8 +63,9 @@ def part_1(data: str):
 
         return -1
 
-    sorted_by_type = []
-    for row in re.findall(r"\w+ \w+", data):
+    sorted_by_type: list[tuple[str, str, int]] = []
+    rows: list[str] = re.findall(r"\w+ \w+", data)
+    for row in rows:
         hand, bid = row.split()
         count = Counter(hand)
         if is_five_of_a_kind(count):
@@ -95,7 +96,7 @@ def part_1(data: str):
 def part_2(data: str):
     _strength = ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
 
-    def comparator_1(key1, key2):
+    def comparator_1(key1: tuple[str, str, int], key2: tuple[str, str, int]):
         hand1, _, _type1 = key1
         hand2, _, _type2 = key2
         if _type1 > _type2:
@@ -112,7 +113,7 @@ def part_2(data: str):
 
         return -1
 
-    def get_type(_char_dict: Counter):
+    def get_type(_char_dict: Counter[str]):
         joker_count = _char_dict.get("J", 0)
         del _char_dict["J"]
         counts = sorted(list(_char_dict.values()), reverse=True) or [0]
@@ -148,8 +149,9 @@ def part_2(data: str):
         # High card, where all cards' labels are distinct: 23456
         return 1
 
-    sorted_by_type = []
-    for row in re.findall(r"\w+ \w+", data):
+    sorted_by_type: list[tuple[str, str, int]] = []
+    rows: list[str] = re.findall(r"\w+ \w+", data)
+    for row in rows:
         hand, bid = row.split()
         count = Counter(hand)
         sorted_by_type.append((hand, bid, get_type(count)))
@@ -163,14 +165,6 @@ def part_2(data: str):
     return total_winnings
 
 
-data = """
-32T3K 765
-T55J5 684
-KK677 28
-KTJJT 220
-QQQJA 483
-"""
-with open(os.path.join(os.getcwd(), "2023/inputs/7.txt"), "r") as f:
-    data = f.read().strip()
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2023/inputs/7.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")

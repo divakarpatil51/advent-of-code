@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 
 def part_1(data: str) -> int:
@@ -28,7 +28,7 @@ def part_2(data: str) -> int:
 
     calibration_value = 0
     for line in data.split("\n"):
-        digits = []
+        digits: list[str] = []
         for idx, _char in enumerate(line):
             if _char.isdigit():
                 digits.append(_char)
@@ -41,7 +41,6 @@ def part_2(data: str) -> int:
     return calibration_value
 
 
-with open(os.path.join(os.getcwd(), "2023/inputs/1.txt"), "r") as f:
-    data = f.read().strip()
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2023/inputs/1.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")

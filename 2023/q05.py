@@ -1,5 +1,5 @@
+from pathlib import Path
 import re
-import os
 
 
 def part_1(data: str):
@@ -10,7 +10,7 @@ def part_1(data: str):
     for seed in map(int, seeds):
         curr_source = seed
         for line in alamanac_data:
-            src_dest_map = re.findall(r"\d+ \d+ \d+", line)
+            src_dest_map: list[str] = re.findall(r"\d+ \d+ \d+", line)
             for curr in src_dest_map:
                 dest, source, _range = map(int, curr.split())
                 if curr_source in range(source, source + _range):
@@ -21,10 +21,11 @@ def part_1(data: str):
 
 
 def part_2(puzzle_input: str):
-    segments = puzzle_input.split("\n\n")
-    intervals = []
+    segments: list[str] = puzzle_input.split("\n\n")
+    intervals: list[tuple[int, int, int]] = []
 
-    for seed in re.findall(r"(\d+) (\d+)", segments[0]):
+    seeds: list[str] = re.findall(r"(\d+) (\d+)", segments[0])
+    for seed in seeds:
         src, _range = map(int, seed)
         intervals.append((src, src + _range, 1))
 
@@ -34,8 +35,8 @@ def part_2(puzzle_input: str):
         if level == 8:
             min_location = min(src_start, min_location)
             continue
-
-        for conversion in re.findall(r"(\d+) (\d+) (\d+)", segments[level]):
+        conversions: list[str] = re.findall(r"(\d+) (\d+) (\d+)", segments[level])
+        for conversion in conversions:
             dest, new_src_start, _range = map(int, conversion)
             new_src_end = new_src_start + _range
             diff = dest - new_src_start
@@ -57,42 +58,6 @@ def part_2(puzzle_input: str):
     return min_location
 
 
-data = """seeds: 79 14 55 13
-
-seed-to-soil map:
-50 98 2
-52 50 48
-
-soil-to-fertilizer map:
-0 15 37
-37 52 2
-39 0 15
-
-fertilizer-to-water map:
-49 53 8
-0 11 42
-42 0 7
-57 7 4
-
-water-to-light map:
-88 18 7
-18 25 70
-
-light-to-temperature map:
-45 77 23
-81 45 19
-68 64 13
-
-temperature-to-humidity map:
-0 69 1
-1 0 69
-
-humidity-to-location map:
-60 56 37
-56 93 4"""
-
-
-with open(os.path.join(os.getcwd(), "2023/inputs/5.txt"), "r") as f:
-    data = f.read().strip()
-    print(f"Part one output: {part_1(data)}")
-    print(f"Part two output: {part_2(data)}")
+data = Path(Path.cwd() / "2023/inputs/5.txt").read_text().strip()
+print(f"Part one output: {part_1(data)}")
+print(f"Part two output: {part_2(data)}")
