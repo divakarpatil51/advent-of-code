@@ -1,4 +1,4 @@
-from pathlib import Path
+import aocd
 
 
 def part1(data: str) -> int:
@@ -27,11 +27,9 @@ def part2(data: str) -> int:
         for i in range(len(report)):
             excluded_list = list(report[:i]) + list(report[i + 1 :])
             increasing_or_decreasing = all(
-                excluded_list[j] < excluded_list[j + 1]
-                for j in range(len(excluded_list) - 1)
+                excluded_list[j] < excluded_list[j + 1] for j in range(len(excluded_list) - 1)
             ) or all(
-                excluded_list[j] > excluded_list[j + 1]
-                for j in range(len(excluded_list) - 1)
+                excluded_list[j] > excluded_list[j + 1] for j in range(len(excluded_list) - 1)
             )
 
             all_within_tolerance = all(
@@ -48,6 +46,6 @@ def part2(data: str) -> int:
     return count
 
 
-data = Path(Path.cwd() / "2024/inputs/2.txt").read_text().strip()
+data = aocd.get_data(day=2, year=2024)
 print(f"Part 1 output: {part1(data)}")  # 218 --> answer
 print(f"Part 2 output: {part2(data)}")  # 290

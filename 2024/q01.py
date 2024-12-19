@@ -1,6 +1,6 @@
-from pathlib import Path
 from collections import Counter
 import heapq
+import aocd
 
 
 def part_1(data: str) -> int:
@@ -33,6 +33,6 @@ def part_2(data: str) -> int:
     return count
 
 
-data = Path(Path.cwd() / "2024/inputs/1.txt").read_text().strip()
+data = aocd.get_data(day=1, year=2024)
 print(f"Part one output: {part_1(data)}")
 print(f"Part two output: {part_2(data)}")
