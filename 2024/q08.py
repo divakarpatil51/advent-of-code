@@ -1,0 +1,29 @@
+import aocd
+
+
+def part1(data: str) -> int:
+    print(" ", [str(idx) for idx, _ in enumerate(data.split("\n")[0])])
+
+    for idx, line in enumerate(data.split("\n")):
+        print(idx, list(line))
+    return 0
+
+
+def part2(data: str) -> int:
+    return 0
+
+
+data = aocd.get_data(day=8, year=2024)
+
+data = """..........
+...#......
+..........
+....a.....
+..........
+.....a....
+..........
+......#...
+..........
+.........."""
+print(f"Part 1 output: {part1(data)}")
+print(f"Part 2 output: {part2(data)}")
