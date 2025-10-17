@@ -1,5 +1,17 @@
+import os
+
+
 import math
 from pathlib import Path
+
+
+def read_input(year: str, day: str) -> str:
+    """Read input data for Advent of Code problems."""
+    env = os.getenv("AOC_ENV", "real")
+    input_path = Path.cwd() / "inputs" / year / env / f"{day}.txt"
+    return input_path.read_text().strip()
+
+
 import re
 from itertools import cycle
 
@@ -47,6 +59,6 @@ def part_2(data: str):
     return math.lcm(*count)
 
 
-data = Path(Path.cwd() / "2023/inputs/8.txt").read_text().strip()
+data = read_input("2023", "8")
 print(f"Part one output: {part_1(data)}")
 print(f"Part two output: {part_2(data)}")

@@ -1,4 +1,16 @@
+import os
+
+
 from pathlib import Path
+
+
+def read_input(year: str, day: str) -> str:
+    """Read input data for Advent of Code problems."""
+    env = os.getenv("AOC_ENV", "real")
+    input_path = Path.cwd() / "inputs" / year / env / f"{day}.txt"
+    return input_path.read_text().strip()
+
+
 import re
 from collections import Counter
 from functools import cmp_to_key
@@ -85,9 +97,7 @@ def part_1(data: str):
             sorted_by_type.append((hand, bid, 1))
 
     total_winnings = 0
-    for idx, _hand in enumerate(
-        sorted(sorted_by_type, key=cmp_to_key(comparator)), start=1
-    ):
+    for idx, _hand in enumerate(sorted(sorted_by_type, key=cmp_to_key(comparator)), start=1):
         total_winnings += idx * int(_hand[1])
 
     return total_winnings
@@ -157,14 +167,12 @@ def part_2(data: str):
         sorted_by_type.append((hand, bid, get_type(count)))
 
     total_winnings = 0
-    for idx, _hand in enumerate(
-        sorted(sorted_by_type, key=cmp_to_key(comparator_1)), start=1
-    ):
+    for idx, _hand in enumerate(sorted(sorted_by_type, key=cmp_to_key(comparator_1)), start=1):
         total_winnings += idx * int(_hand[1])
 
     return total_winnings
 
 
-data = Path(Path.cwd() / "2023/inputs/7.txt").read_text().strip()
+data = read_input("2023", "7")
 print(f"Part one output: {part_1(data)}")
 print(f"Part two output: {part_2(data)}")

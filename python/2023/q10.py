@@ -1,5 +1,17 @@
+import os
+
+
 from collections import deque
 from pathlib import Path
+
+
+def read_input(year: str, day: str) -> str:
+    """Read input data for Advent of Code problems."""
+    env = os.getenv("AOC_ENV", "real")
+    input_path = Path.cwd() / "inputs" / year / env / f"{day}.txt"
+    return input_path.read_text().strip()
+
+
 
 
 def part1(data: str):
@@ -22,41 +34,25 @@ def part1(data: str):
             continue
         cell = grid[row][col]
         # Traveling down
-        if (
-            (row + 1, col) not in seen
-            and cell in "7F|S"
-            and grid[row + 1][col] in "|JL"
-        ):
+        if (row + 1, col) not in seen and cell in "7F|S" and grid[row + 1][col] in "|JL":
             curr = row + 1, col
             stack.append(curr)
             seen.add(curr)
 
         # Traveling up
-        if (
-            (row - 1, col) not in seen
-            and cell in "J|SL"
-            and grid[row - 1][col] in "|7F"
-        ):
+        if (row - 1, col) not in seen and cell in "J|SL" and grid[row - 1][col] in "|7F":
             curr = row - 1, col
             stack.append(curr)
             seen.add(curr)
 
         # Traveling right
-        if (
-            (row, col + 1) not in seen
-            and cell in "-FLS"
-            and grid[row][col + 1] in "-7J"
-        ):
+        if (row, col + 1) not in seen and cell in "-FLS" and grid[row][col + 1] in "-7J":
             curr = row, col + 1
             stack.append(curr)
             seen.add(curr)
 
         # Traveling left
-        if (
-            (row, col - 1) not in seen
-            and cell in "-7JS"
-            and grid[row][col - 1] in "-FL"
-        ):
+        if (row, col - 1) not in seen and cell in "-7JS" and grid[row][col - 1] in "-FL":
             curr = row, col - 1
             stack.append(curr)
             seen.add(curr)
@@ -69,6 +65,6 @@ def part2(data: str):
     pass
 
 
-data = Path(Path.cwd() / "2023/inputs/10.txt").read_text().strip()
+data = read_input("2023", "10")
 print(f"Part 1 output: {part1(data)}")
 print(f"Part 2 output: {part2(data)}")

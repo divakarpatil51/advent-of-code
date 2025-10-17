@@ -1,4 +1,11 @@
+import os
 from pathlib import Path
+
+
+def read_input(year: str, day: str) -> str:
+    env = os.getenv("AOC_ENV", "real")
+    input_path = Path.cwd() / "inputs" / year / env / f"{day}.txt"
+    return input_path.read_text().strip()
 
 
 def part_1(data: str) -> int:
@@ -41,6 +48,6 @@ def part_2(data: str) -> int:
     return calibration_value
 
 
-data = Path(Path.cwd() / "2023/inputs/1.txt").read_text().strip()
+data = read_input("2023", "1")
 print(f"Part one output: {part_1(data)}")
 print(f"Part two output: {part_2(data)}")
